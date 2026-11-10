@@ -62,10 +62,10 @@ h3 { margin: 0; color: var(--ink); font-size: 1.08rem; }
 .project-report { margin-top: 30px; }
 .report-viewer { display: block; width: 100%; height: min(78vh, 900px); min-height: 390px; border: 1px solid var(--line); border-radius: 8px; }
 
-.balance-intro { display: grid; grid-template-columns: 1.4fr 1fr; align-items: start; gap: 28px; margin-top: 20px; }
+.balance-intro { display: grid; grid-template-columns: minmax(0, 1fr) 150px; align-items: start; gap: 28px; margin-top: 20px; }
 .balance-links { display: flex; flex-wrap: wrap; gap: 6px 15px; }
-.balance-photo { margin: 0; }
-.balance-photo img { display: block; width: 100%; height: auto; max-height: 345px; object-fit: contain; background: #f6f4f7; border: 1px solid var(--line); border-radius: 8px; }
+.balance-photo { width: 150px; margin: 0; }
+.balance-photo img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; }
 .balance-photo figcaption { margin-top: 5px; color: var(--muted); font-size: .85rem; }
 .challenge-specs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .challenge-specs div { border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
@@ -73,4 +73,8 @@ h3 { margin: 0; color: var(--ink); font-size: 1.08rem; }
 .challenge-specs dd { margin: 5px 0 0; color: var(--muted); font-size: .93rem; }
 .report-details summary { color: var(--accent); cursor: pointer; font-weight: 650; }
 .report-details iframe { margin-top: 12px; }
-@media (max-width: 640px) { .balance-intro, .challenge-specs { grid-template-columns: 1fr; } }
+@media (max-width: 640px) {
+  .balance-intro { grid-template-columns: 1fr; gap: 12px; }
+  .balance-photo { width: 120px; }
+  .challenge-specs { grid-template-columns: 1fr; }
+}
