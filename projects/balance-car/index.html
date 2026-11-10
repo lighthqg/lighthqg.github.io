@@ -17,13 +17,34 @@
   <main id="main" class="wrap project-page">
     <a class="back" href="../../#projects">← All projects</a>
     <h1>Balance Car</h1>
-    <p><a href="https://github.com/vibub/2026_STM32Car">Source code on GitHub ↗</a></p>
-    <section class="project-report" aria-labelledby="report-title">
-      <h2 id="report-title">Technical report</h2>
-      <p lang="zh-CN">车载平衡滚球运动控制系统（H 题）</p>
-      <p>The report describes the STM32-based controller, vision-based ball tracking, and the control loops for vehicle tracking and ball balance.</p>
-      <p><a href="report.zh.pdf">Open the Chinese PDF ↗</a></p>
-      <iframe class="report-viewer" src="report.zh.pdf" title="Balance Car technical report in Chinese" loading="lazy"></iframe>
+    <div class="balance-intro">
+      <div>
+        <p class="kicker">2026 TI Cup · Problem H</p>
+        <p class="project-lede">A line-following vehicle that uses a camera to track a steel ball and tilts a grooved beam to control its position.</p>
+        <p class="balance-links"><a href="https://github.com/vibub/2026_STM32Car">Source code ↗</a> <a href="problem-h.zh.pdf">Original problem (Chinese PDF) ↗</a> <a href="report.zh.pdf">Technical report (Chinese PDF) ↗</a></p>
+      </div>
+      <figure class="balance-photo">
+        <a href="system-photo.jpg"><img src="system-photo.jpg" width="3072" height="4096" alt="Photograph of the assembled Balance Car prototype"></a>
+        <figcaption>Balance Car prototype</figcaption>
+      </figure>
+    </div>
+    <section class="project-report" aria-labelledby="challenge-title">
+      <h2 id="challenge-title">The challenge</h2>
+      <p>Build a battery-powered vehicle that follows a black loop autonomously while keeping a steel ball near a target on a grooved beam. An onboard camera must show the ball’s motion live and record each test for replay.</p>
+      <dl class="challenge-specs">
+        <div><dt>Line following and stopping</dt><dd>Complete a lap within 20 seconds and stop within 2 cm of the start mark.</dd></div>
+        <div><dt>Ball positioning at rest</dt><dd>Move the ball from the center to +5 cm, then to −5 cm, within 5 seconds. The position error at either target must stay within 1 cm.</dd></div>
+        <div><dt>Balance while driving</dt><dd>Keep the ball within 1 cm of its target during the A-to-B segment or a full lap. The time limits are 8 seconds and 30 seconds, respectively.</dd></div>
+      </dl>
+    </section>
+    <section class="project-report" aria-labelledby="design-title">
+      <h2 id="design-title">System design</h2>
+      <p>An STM32H745 controls the vehicle. An eight-channel infrared array measures line position, a CanMV K230 camera tracks the ball and streams video, and an IMU measures the beam angle. The balance controller uses the ball’s position to set a target beam angle, then adjusts the actuator to reach that angle.</p>
+      <p>The report documents simulation, host-side tests, and partial hardware validation. Balancing the ball while the vehicle drives remained an integration task.</p>
+      <details class="report-details">
+        <summary>Read the full technical report in Chinese</summary>
+        <iframe class="report-viewer" src="report.zh.pdf" title="Balance Car technical report in Chinese" loading="lazy"></iframe>
+      </details>
     </section>
   </main>
   <footer class="wrap footer">Qiguang He</footer>
