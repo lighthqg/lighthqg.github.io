@@ -58,3 +58,6 @@ h3 { margin: 0; color: var(--ink); font-size: 1.08rem; }
 .research-fit p:last-child { margin-bottom: 0; }
 .project-lede { font-size: 1.12rem; }
 .contribution { margin-top: 25px; }
+
+.project-report { margin-top: 30px; }
+.report-viewer { display: block; width: 100%; height: min(78vh, 900px); min-height: 390px; border: 1px solid var(--line); border-radius: 8px; }
