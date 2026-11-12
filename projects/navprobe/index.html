@@ -15,27 +15,34 @@
 .placeholder{margin:16px 0;padding:14px 16px;border:1px dashed var(--line);border-radius:6px;background:var(--white);color:var(--muted)}.placeholder strong{color:var(--ink)}.placeholder p{margin:2px 0 0;font-size:.9rem}
 @media(max-width:480px){nav{flex-wrap:wrap;gap:4px;padding:10px 0}nav div{flex-wrap:wrap;column-gap:14px;row-gap:4px}}
 
-.demo{display:grid;grid-template-columns:minmax(240px,1fr) 1.5fr;gap:24px;padding:22px;background:var(--white);border:1px solid var(--line);border-radius:8px}
-.demo canvas{width:100%;height:auto;align-self:center;border:1px solid var(--line);border-radius:6px;background:#f8f9f6}
-.demo fieldset{margin:0;padding:8px 12px;border:1px solid var(--line);border-radius:6px}
-.demo label{display:block;cursor:pointer}.demo input{accent-color:var(--accent)}
-.verdict{margin:14px 0 0}.verdict div{display:flex;justify-content:space-between;gap:10px;padding:4px 0;border-bottom:1px solid var(--line);font-size:.9rem}
-.verdict dd{color:var(--accent);font-weight:700}.verdict dd[data-fail]{color:#a52a30}
-@media(max-width:740px){.demo{grid-template-columns:1fr;padding:14px;gap:14px}}
+.case-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.case-list button{border:1px solid var(--line);border-radius:6px;background:var(--white);color:var(--ink);padding:10px;text-align:left;font:inherit;cursor:pointer}
+.case-list button[aria-pressed="true"]{background:var(--wash);border-color:var(--accent)}
+.case-list button small{display:block;color:var(--muted)}.case-list button:focus-visible{outline:3px solid #278772;outline-offset:2px}
+.demo{display:grid;grid-template-columns:1fr 1.5fr;gap:24px;padding:22px;background:var(--white);border:1px solid var(--line);border-radius:8px}
+.demo h3{margin-bottom:6px}.demo figure{min-width:0;margin:0}
+.demo canvas{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:6px;background:var(--bg)}
+.demo figcaption{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:7px}
+.key{display:inline-flex;gap:6px;align-items:center}.key::before{content:"";width:18px;border-top:3px solid #12564b}.key.reference::before{border-top:3px dashed #62799e}.key.target::before{border-color:#a7631b}
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-top:12px}
+.controls label{display:inline-flex;align-items:center;gap:8px}.controls input{accent-color:var(--accent)}
+.verdict{margin:14px 0}.verdict div{display:flex;justify-content:space-between;gap:10px;padding:4px 0;border-bottom:1px solid var(--line);font-size:.9rem}
+.verdict dd{font-weight:700;white-space:nowrap}.verdict dd[data-state="pass"]{color:var(--accent)}.verdict dd[data-state="fail"]{color:#a52a30}
+@media(max-width:740px){.demo{grid-template-columns:1fr;padding:14px;gap:14px}.case-list{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="bar"><nav class="wrap" aria-label="Main">
 <a class="brand" href="#">NavProbe <span>v1.0</span></a>
-<div><a href="#benchmark">Benchmark</a><a href="#explore">Demo</a><a href="../../">About the author ↗</a></div>
+<div><a href="#benchmark">Benchmark</a><a href="#explore">Case demos</a><a href="../../">About the author ↗</a></div>
 </nav></header>
 <main id="main">
 <section class="wrap hero">
 <div class="eyebrow">A vision-and-language navigation benchmark</div>
 <h1>Within Three Meters.<br>Is That Success?</h1>
 <p class="lede">NavProbe evaluates how faithfully navigation agents follow natural-language instructions by checking individual requirements alongside conventional navigation metrics.</p>
-<div class="actions"><a class="button primary" href="#explore">Try the demo <span aria-hidden="true">↓</span></a></div>
+<div class="actions"><a class="button primary" href="#explore">Explore four cases <span aria-hidden="true">↓</span></a></div>
 <dl class="stats"><div><dt>500</dt><dd>Whole instructions</dd></div><div><dt>1,702</dt><dd>Whole Judgements</dd></div><div><dt>885</dt><dd>Eligible Micro tasks</dd></div><div><dt>11</dt><dd>Unseen scenes</dd></div></dl>
 </section>
 <section class="wrap section" id="benchmark">
@@ -46,82 +53,185 @@
 <dl class="concepts"><div><dt>Whole</dt><dd>The original instruction and starting pose.</dd></div><div><dt>Judgement</dt><dd>An executable check for a grounded requirement, such as crossing the specified opening or stopping by the correct object.</dd></div><div><dt>Micro</dt><dd>A self-contained fragment of the instruction, evaluated from a validated reset pose using the matching Judgements.</dd></div></dl>
 </section>
 <section class="wrap section" id="explore">
-<h2>Try a judgement</h2>
-<p class="intro">Illustrative floor plan. Both routes end at the same point.</p>
-<div class="demo">
-<div>
-<p><strong>Instruction</strong><br>Cross the marked doorway, then stop at the target.</p>
-<fieldset><legend>Route</legend>
-<label><input type="radio" name="route" value="through" checked> Cross the doorway</label>
-<label><input type="radio" name="route" value="around"> Take the other opening</label>
-</fieldset>
-<dl class="verdict" aria-live="polite">
-<div><dt>Endpoint success (SR)</dt><dd>Success</dd></div>
-<div><dt>Cross the marked doorway</dt><dd id="door-score">Pass</dd></div>
-<div><dt>Stop at the target</dt><dd>Pass</dd></div>
-</dl>
+<h2>Four ways the scores disagree</h2>
+<p class="intro">Recorded LightNav-0 results from four complete instructions. The floor plans and trajectories are illustrative recreations of the navigation decisions. Scores come from the original runs. Drawings are not to scale.</p>
+<div class="case-list" role="group" aria-label="Choose a case">
+<button type="button" aria-pressed="true">Wrong stop<small>SR 1 · Failed</small></button>
+<button type="button" aria-pressed="false">Missed crossing<small>nDTW 0.920 · Failed</small></button>
+<button type="button" aria-pressed="false">Different path<small>nDTW 0.529 · Perfect</small></button>
+<button type="button" aria-pressed="false">Valid stop outside radius<small>SR 0 · Perfect</small></button>
 </div>
-<canvas id="map" width="700" height="420" role="img" aria-label="Illustrative map showing a route that crosses the marked doorway and stops at the target.">Both routes stop at the target. The route through the marked doorway passes the crossing check.</canvas>
+<div class="demo">
+<div aria-live="polite">
+<p class="eyebrow" id="source"></p>
+<h3 id="case-title"></h3>
+<p id="instruction"></p>
+<dl class="verdict">
+<div><dt>Endpoint success (SR)</dt><dd id="sr"></dd></div>
+<div><dt>Path similarity (nDTW)</dt><dd id="ndtw"></dd></div>
+<div><dt>NavProbe outcome</dt><dd id="grade"></dd></div>
+</dl>
+<p id="finding"></p>
+</div>
+<figure>
+<canvas id="map" width="700" height="420" role="img" aria-label="Illustrative navigation diagram"></canvas>
+<figcaption class="note"><span class="key">Agent</span><span class="key reference">Expert reference</span><span class="key target">Instruction target</span></figcaption>
+<div class="controls">
+<label>Agent route <input id="progress" type="range" min="0" max="100" value="100" aria-label="Agent route progress"></label>
+<label><input id="reference" type="checkbox" checked> Show reference</label>
+</div>
+</figure>
 </div>
 </section>
 </main>
 <footer class="wrap footer"><span>NavProbe · Academic benchmark</span><a href="#main">Back to top ↑</a></footer>
 <script>
+const cases = [
+  {
+    episode: 953, title: "Within three meters, at the wrong stop",
+    instruction: "Go around the kitchen island toward the dining room. Turn right and stop beside the table with the cross and vase.",
+    sr: 1, ndtw: "0.452", grade: "Failed",
+    finding: "LightNav-0 stopped 2.56 m from the official goal. It missed the required right turn and the specified table.",
+    rooms: [[56,80,348,260,"Kitchen"],[404,146,240,194,"Dining room"]],
+    furniture: [[143,141,124,72,"Island"],[500,197,96,60,"Target table",true]],
+    walls: [[[404,146],[404,209]],[[404,281],[404,340]]],
+    agent: [[100,268],[215,268],[333,254],[447,244]], reference: [[100,268],[118,223],[116,115],[308,115],[337,241],[465,245],[490,280],[562,283]]
+  },
+  {
+    episode: 1004, title: "A near-identical path stops short",
+    instruction: "Walk between the two kitchen islands, turn right, and cross the stone archway. Stop just beyond it.",
+    sr: 1, ndtw: "0.920", grade: "Failed",
+    finding: "LightNav-0 followed a similar route but stopped before crossing the stone archway. The requested stop was beyond it.",
+    rooms: [[55,70,433,280,"Kitchen"],[488,167,155,183,"Hall"]],
+    furniture: [[113,124,214,54,"Island"],[113,254,214,48,"Island"]],
+    walls: [[[488,167],[488,246]],[[488,303],[488,350]]],
+    gate: [[488,246],[488,303]],
+    agent: [[96,216],[205,216],[350,216],[405,221],[417,269],[469,273]],
+    reference: [[96,216],[216,210],[350,211],[398,217],[415,278],[525,278],[558,282]]
+  },
+  {
+    episode: 516, title: "A different path still follows the instruction",
+    instruction: "Pass the sink and open door, turn left by the French doors, then turn right. Pass the kitchen and wait near the sofa end table.",
+    sr: 1, ndtw: "0.529", grade: "Perfect",
+    finding: "The paths differ through the open area. LightNav-0 still passed all six requirements, including the specified turns and stop.",
+    rooms: [[58,210,207,146,"Sink area"],[265,165,140,191,""],[265,61,378,104,"Kitchen"],[405,165,238,191,"Sitting area"]],
+    furniture: [[78,265,82,38,"Sink"],[275,321,120,25,"French doors"],[518,228,102,50,"Sofa"],[545,282,78,41,"End table",true]],
+    walls: [[[265,210],[265,267]],[[265,317],[265,356]]],
+    gate: [[265,267],[265,317]],
+    agent: [[98,320],[170,320],[214,294],[316,294],[318,118],[475,118],[484,272],[528,316]],
+    reference: [[98,320],[171,314],[208,306],[354,304],[356,83],[599,84],[598,196],[497,196],[495,316],[528,324]]
+  },
+  {
+    episode: 1079, title: "A correct stop outside the success radius",
+    instruction: "Turn left by the bar and tables, then wait near the couch.",
+    sr: 0, ndtw: "0.715", grade: "Perfect",
+    finding: "LightNav-0 stopped by the instructed couch and passed all five requirements. Its stop was 3.258 m from the official goal.",
+    rooms: [[59,73,582,277,"Lounge"]],
+    furniture: [[92,124,155,42,"Bar"],[264,125,72,48,"Tables"],[494,225,110,55,"Target couch",true]],
+    walls: [],
+    agent: [[110,281],[211,281],[306,286],[385,261],[434,242],[477,242]],
+    reference: [[110,281],[216,271],[296,255],[343,232],[361,185],[379,150]]
+  }
+];
+
+const buttons = [...document.querySelectorAll(".case-list button")];
 const canvas = document.getElementById("map");
 const context = canvas.getContext("2d");
-const doorScore = document.getElementById("door-score");
+const progress = document.getElementById("progress");
+const reference = document.getElementById("reference");
+let selected = 0;
 
-function drawMap(crossesDoor) {
-  context.clearRect(0, 0, 700, 420);
-  function line(points, color, width) {
-    context.beginPath();
-    context.moveTo(...points[0]);
-    points.slice(1).forEach(point => context.lineTo(...point));
-    context.lineJoin = "round";
-    context.lineCap = "round";
-    context.strokeStyle = color;
-    context.lineWidth = width;
-    context.stroke();
-  }
-  function mark(x, y, color, label) {
-    context.beginPath();
-    context.arc(x, y, 10, 0, 2 * Math.PI);
-    context.fillStyle = color;
-    context.fill();
-    context.fillText(label, x, y - 22);
-  }
-  context.fillStyle = "#fff";
-  context.fillRect(60, 55, 580, 310);
-  context.strokeStyle = "#536264";
-  context.lineWidth = 5;
-  context.strokeRect(60, 55, 580, 310);
-  line([[350, 55], [350, 110]], "#536264", 5);
-  line([[350, 170], [350, 275]], "#536264", 5);
-  line([[350, 335], [350, 365]], "#536264", 5);
-  line([[350, 110], [350, 170]], "#ab6a10", 8);
-  const points = crossesDoor ? [[150, 220], [245, 140], [455, 140], [550, 220]]
-    : [[150, 220], [240, 305], [460, 305], [550, 220]];
-  line(points, "#12564b", 9);
-  context.font = "600 22px system-ui, sans-serif";
-  context.textAlign = "center";
-  context.fillStyle = "#774707";
-  context.fillText("Marked doorway", 350, 92);
-  mark(150, 220, "#192526", "Start");
-  mark(550, 220, "#12564b", "Target");
-  canvas.setAttribute("aria-label", crossesDoor
-    ? "The route crosses the marked doorway and stops at the target."
-    : "The route uses the other opening and stops at the same target.");
+function line(points, color, width, dash = []) {
+  context.beginPath();
+  context.moveTo(...points[0]);
+  for (const point of points.slice(1)) context.lineTo(...point);
+  context.strokeStyle = color;
+  context.lineWidth = width;
+  context.lineCap = "round";
+  context.lineJoin = "round";
+  context.setLineDash(dash);
+  context.stroke();
+  context.setLineDash([]);
 }
 
-document.querySelectorAll('input[name="route"]').forEach(input => {
-  input.addEventListener("change", event => {
-    const crossesDoor = event.target.value === "through";
-    doorScore.textContent = crossesDoor ? "Pass" : "Fail";
-    doorScore.toggleAttribute("data-fail", !crossesDoor);
-    drawMap(crossesDoor);
-  });
-});
-drawMap(true);
+function label(text, x, y, color = "#3d5156") {
+  context.fillStyle = color;
+  context.font = "600 17px system-ui, sans-serif";
+  context.textAlign = "center";
+  context.fillText(text, x, y);
+}
+
+function marker(point, color, radius) {
+  context.beginPath();
+  context.arc(...point, radius, 0, 2 * Math.PI);
+  context.fillStyle = color;
+  context.fill();
+}
+
+function routePrefix(points, fraction) {
+  const lengths = points.slice(1).map(([x, y], i) => Math.hypot(x - points[i][0], y - points[i][1]));
+  let remaining = fraction * lengths.reduce((total, length) => total + length, 0);
+  const prefix = [points[0]];
+  for (const [i, length] of lengths.entries()) {
+    if (remaining < length) {
+      const [x, y] = points[i];
+      const [nextX, nextY] = points[i + 1];
+      prefix.push([x + (nextX - x) * remaining / length, y + (nextY - y) * remaining / length]);
+      break;
+    }
+    prefix.push(points[i + 1]);
+    remaining -= length;
+  }
+  return prefix;
+}
+
+function drawMap() {
+  const example = cases[selected];
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  for (const [x, y, width, height, name] of example.rooms) {
+    context.fillStyle = "#fff";
+    context.fillRect(x, y, width, height);
+    context.strokeStyle = "#9aa8a7";
+    context.lineWidth = 2;
+    context.strokeRect(x, y, width, height);
+    if (name) label(name, x + width / 2, y + 26);
+  }
+  for (const [x, y, width, height, name, target] of example.furniture) {
+    context.fillStyle = target ? "#f5e6ca" : "#edf1ef";
+    context.fillRect(x, y, width, height);
+    label(name, x + width / 2, y + height / 2 + 6, target ? "#864807" : undefined);
+  }
+  for (const wall of example.walls) line(wall, "#536264", 5);
+  if (example.gate) line(example.gate, "#a7631b", 7);
+  if (reference.checked) {
+    line(example.reference, "#62799e", 5, [8, 8]);
+    marker(example.reference.at(-1), "#62799e", 7);
+  }
+  const traveled = routePrefix(example.agent, Number(progress.value) / 100);
+  line(traveled, "#12564b", 6);
+  marker(example.agent[0], "#192526", 7);
+  marker(traveled.at(-1), "#12564b", 8);
+  label("Start", example.agent[0][0], example.agent[0][1] + 23);
+  if (progress.value === "100") label("Agent stop", example.agent.at(-1)[0], example.agent.at(-1)[1] - 14, "#12564b");
+}
+
+function selectCase(index) {
+  selected = index;
+  const {episode, title, instruction, sr, ndtw, grade, finding} = cases[index];
+  const values = {source: `LightNav-0 · Episode ${episode}`, "case-title": title, instruction, sr, ndtw, grade, finding};
+  for (const [id, value] of Object.entries(values)) document.getElementById(id).textContent = value;
+  document.getElementById("grade").dataset.state = grade === "Perfect" ? "pass" : "fail";
+  document.getElementById("sr").dataset.state = sr === 1 ? "pass" : "fail";
+  canvas.setAttribute("aria-label", `Illustrative route diagram. ${finding}`);
+  buttons.forEach((button, i) => button.setAttribute("aria-pressed", String(i === index)));
+  progress.value = "100";
+  drawMap();
+}
+
+buttons.forEach((button, i) => button.addEventListener("click", () => selectCase(i)));
+progress.addEventListener("input", drawMap);
+reference.addEventListener("change", drawMap);
+selectCase(0);
 </script>
 </body>
 </html>
