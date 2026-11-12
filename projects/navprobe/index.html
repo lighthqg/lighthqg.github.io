@@ -15,7 +15,7 @@
 .placeholder{margin:16px 0;padding:14px 16px;border:1px dashed var(--line);border-radius:6px;background:var(--white);color:var(--muted)}.placeholder strong{color:var(--ink)}.placeholder p{margin:2px 0 0;font-size:.9rem}
 @media(max-width:480px){nav{flex-wrap:wrap;gap:4px;padding:10px 0}nav div{flex-wrap:wrap;column-gap:14px;row-gap:4px}}
 
-.case-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.case-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:14px}
 .case-list button{border:1px solid var(--line);border-radius:6px;background:var(--white);color:var(--ink);padding:10px;text-align:left;font:inherit;cursor:pointer}
 .case-list button[aria-pressed="true"]{background:var(--wash);border-color:var(--accent)}
 .case-list button small{display:block;color:var(--muted)}.case-list button:focus-visible{outline:3px solid #278772;outline-offset:2px}
@@ -23,7 +23,7 @@
 .demo h3{margin-bottom:6px}.demo figure{min-width:0;margin:0}
 .demo canvas{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:6px;background:var(--bg)}
 .demo figcaption{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:7px}
-.key{display:inline-flex;gap:6px;align-items:center}.key::before{content:"";width:18px;border-top:3px solid #12564b}.key.reference::before{border-top:3px dashed #62799e}.key.target::before{border-color:#a7631b}
+.key{display:inline-flex;gap:6px;align-items:center}.key::before{content:"";width:18px;border-top:3px solid #12564b}.key.reference::before{border-top:3px dashed #62799e}.key.target::before{height:8px;background:#f5e6ca;border:1px solid #a7631b}
 .controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-top:12px}
 .controls label{display:inline-flex;align-items:center;gap:8px}.controls input{accent-color:var(--accent)}
 .verdict{margin:14px 0}.verdict div{display:flex;justify-content:space-between;gap:10px;padding:4px 0;border-bottom:1px solid var(--line);font-size:.9rem}
@@ -42,7 +42,7 @@
 <div class="eyebrow">A vision-and-language navigation benchmark</div>
 <h1>Within Three Meters.<br>Is That Success?</h1>
 <p class="lede">NavProbe evaluates how faithfully navigation agents follow natural-language instructions by checking individual requirements alongside conventional navigation metrics.</p>
-<div class="actions"><a class="button primary" href="#explore">Explore four cases <span aria-hidden="true">↓</span></a></div>
+<div class="actions"><a class="button primary" href="#explore">Explore three cases <span aria-hidden="true">↓</span></a></div>
 <dl class="stats"><div><dt>500</dt><dd>Whole instructions</dd></div><div><dt>1,702</dt><dd>Whole Judgements</dd></div><div><dt>885</dt><dd>Eligible Micro tasks</dd></div><div><dt>11</dt><dd>Unseen scenes</dd></div></dl>
 </section>
 <section class="wrap section" id="benchmark">
@@ -53,13 +53,12 @@
 <dl class="concepts"><div><dt>Whole</dt><dd>The original instruction and starting pose.</dd></div><div><dt>Judgement</dt><dd>An executable check for a grounded requirement, such as crossing the specified opening or stopping by the correct object.</dd></div><div><dt>Micro</dt><dd>A self-contained fragment of the instruction, evaluated from a validated reset pose using the matching Judgements.</dd></div></dl>
 </section>
 <section class="wrap section" id="explore">
-<h2>Four ways the scores disagree</h2>
-<p class="intro">Recorded LightNav-0 results from four complete instructions. The floor plans and trajectories are illustrative recreations of the navigation decisions. Scores come from the original runs. Drawings are not to scale.</p>
+<h2>What did the agent actually do?</h2>
+<p class="intro">Three real runs, shown on schematic floor plans. Each diagram highlights the specific requirement that explains the score.</p>
 <div class="case-list" role="group" aria-label="Choose a case">
-<button type="button" aria-pressed="true">Wrong stop<small>SR 1 · Failed</small></button>
-<button type="button" aria-pressed="false">Missed crossing<small>nDTW 0.920 · Failed</small></button>
-<button type="button" aria-pressed="false">Different path<small>nDTW 0.529 · Perfect</small></button>
-<button type="button" aria-pressed="false">Valid stop outside radius<small>SR 0 · Perfect</small></button>
+<button type="button" aria-pressed="true">Stopped before the arch<small>nDTW 0.920 · Failed</small></button>
+<button type="button" aria-pressed="false">Reached the right side of the table<small>nDTW 0.738 · Perfect</small></button>
+<button type="button" aria-pressed="false">Stopped inside the requested room<small>SR 0 · Perfect</small></button>
 </div>
 <div class="demo">
 <div aria-live="polite">
@@ -75,7 +74,7 @@
 </div>
 <figure>
 <canvas id="map" width="700" height="420" role="img" aria-label="Illustrative navigation diagram"></canvas>
-<figcaption class="note"><span class="key">Agent</span><span class="key reference">Expert reference</span><span class="key target">Instruction target</span></figcaption>
+<figcaption class="note"><span class="key">Agent</span><span class="key reference">Reference route</span><span class="key target">Requested stop area</span></figcaption>
 <div class="controls">
 <label>Agent route <input id="progress" type="range" min="0" max="100" value="100" aria-label="Agent route progress"></label>
 <label><input id="reference" type="checkbox" checked> Show reference</label>
@@ -84,53 +83,51 @@
 </div>
 </section>
 </main>
-<footer class="wrap footer"><span>NavProbe · Academic benchmark</span><a href="#main">Back to top ↑</a></footer>
+<footer class="wrap footer"><span>NavProbe · Academic benchmark · <a href="https://matterport.com/legal/matterport-end-user-license-agreement-academic-use-model-data">Matterport3D academic-use terms</a></span><a href="#main">Back to top ↑</a></footer>
 <script>
 const cases = [
   {
-    episode: 953, title: "Within three meters, at the wrong stop",
-    instruction: "Go around the kitchen island toward the dining room. Turn right and stop beside the table with the cross and vase.",
-    sr: 1, ndtw: "0.452", grade: "Failed",
-    finding: "LightNav-0 stopped 2.56 m from the official goal. It missed the required right turn and the specified table.",
-    rooms: [[56,80,348,260,"Kitchen"],[404,146,240,194,"Dining room"]],
-    furniture: [[143,141,124,72,"Island"],[500,197,96,60,"Target table",true]],
-    walls: [[[404,146],[404,209]],[[404,281],[404,340]]],
-    agent: [[100,268],[215,268],[333,254],[447,244]], reference: [[100,268],[118,223],[116,115],[308,115],[337,241],[465,245],[490,280],[562,283]]
-  },
-  {
-    episode: 1004, title: "A near-identical path stops short",
-    instruction: "Walk between the two kitchen islands, turn right, and cross the stone archway. Stop just beyond it.",
+    model: "LightNav-0", episode: 1004, title: "The agent never crossed the arch",
+    instruction: "Cross the stone archway and stop just beyond it.",
     sr: 1, ndtw: "0.920", grade: "Failed",
-    finding: "LightNav-0 followed a similar route but stopped before crossing the stone archway. The requested stop was beyond it.",
-    rooms: [[55,70,433,280,"Kitchen"],[488,167,155,183,"Hall"]],
-    furniture: [[113,124,214,54,"Island"],[113,254,214,48,"Island"]],
-    walls: [[[488,167],[488,246]],[[488,303],[488,350]]],
-    gate: [[488,246],[488,303]],
-    agent: [[96,216],[205,216],[350,216],[405,221],[417,269],[469,273]],
-    reference: [[96,216],[216,210],[350,211],[398,217],[415,278],[525,278],[558,282]]
+    finding: "The agent followed nearly the same route but stopped on the kitchen side. The instruction required both crossing the arch and stopping beyond it.",
+    rooms: [[47,94,385,252,"Kitchen"],[432,147,220,199,"Hall"]],
+    furniture: [[95,143,200,54,"Island"],[95,277,200,49,"Island"]],
+    walls: [[[432,147],[432,215]],[[432,281],[432,346]]],
+    gate: [[432,215],[432,281]],
+    target: [444,214,146,67,"Stop beyond arch"],
+    agent: [[72,235],[282,235],[350,235],[388,249]],
+    reference: [[72,235],[282,235],[350,235],[384,257],[501,257]],
+    stopLabel: [346,293]
   },
   {
-    episode: 516, title: "A different path still follows the instruction",
-    instruction: "Pass the sink and open door, turn left by the French doors, then turn right. Pass the kitchen and wait near the sofa end table.",
-    sr: 1, ndtw: "0.529", grade: "Perfect",
-    finding: "The paths differ through the open area. LightNav-0 still passed all six requirements, including the specified turns and stop.",
-    rooms: [[58,210,207,146,"Sink area"],[265,165,140,191,""],[265,61,378,104,"Kitchen"],[405,165,238,191,"Sitting area"]],
-    furniture: [[78,265,82,38,"Sink"],[275,321,120,25,"French doors"],[518,228,102,50,"Sofa"],[545,282,78,41,"End table",true]],
-    walls: [[[265,210],[265,267]],[[265,317],[265,356]]],
-    gate: [[265,267],[265,317]],
-    agent: [[98,320],[170,320],[214,294],[316,294],[318,118],[475,118],[484,272],[528,316]],
-    reference: [[98,320],[171,314],[208,306],[354,304],[356,83],[599,84],[598,196],[497,196],[495,316],[528,324]]
+    model: "StreamVLN", episode: 903, title: "Two paths reach the requested side",
+    instruction: "Cross the patio. Stop on the far side of the white table, facing the yard and brick wall.",
+    sr: 1, ndtw: "0.738", grade: "Perfect",
+    finding: "The model crossed the patio and stopped on the far side of the table, facing the yard and brick wall. Both requirements passed despite the difference in route.",
+    rooms: [[47,115,605,236,"Patio"]],
+    furniture: [[387,194,118,67,"White table"]],
+    walls: [[[377,104],[616,104]]],
+    target: [373,126,183,63,"Far side of table"],
+    labels: [["Yard and brick wall",494,82]],
+    agent: [[82,298],[211,298],[367,286],[525,291],[529,178],[485,177]],
+    reference: [[82,298],[119,205],[230,166],[348,165],[426,173]],
+    heading: [[485,176],[485,155]],
+    stopLabel: [578,176]
   },
   {
-    episode: 1079, title: "A correct stop outside the success radius",
-    instruction: "Turn left by the bar and tables, then wait near the couch.",
-    sr: 0, ndtw: "0.715", grade: "Perfect",
-    finding: "LightNav-0 stopped by the instructed couch and passed all five requirements. Its stop was 3.258 m from the official goal.",
-    rooms: [[59,73,582,277,"Lounge"]],
-    furniture: [[92,124,155,42,"Bar"],[264,125,72,48,"Tables"],[494,225,110,55,"Target couch",true]],
-    walls: [],
-    agent: [[110,281],[211,281],[306,286],[385,261],[434,242],[477,242]],
-    reference: [[110,281],[216,271],[296,255],[343,232],[361,185],[379,150]]
+    model: "ETPNav", episode: 1215, title: "A valid stop outside the 3 m radius",
+    instruction: "Enter the room next to the stairs and stop inside.",
+    sr: 0, ndtw: "Unavailable", grade: "Perfect",
+    finding: "The agent stopped inside the requested room and all three requirements passed. Its stop was 3.53 m from the official goal, beyond the 3 m SR threshold.",
+    rooms: [[52,231,224,112,"Corridor"],[276,126,368,217,"Room next to stairs"]],
+    furniture: [[121,142,120,61,"Stairs"]],
+    walls: [[[276,126],[276,245]],[[276,303],[276,343]]],
+    target: [278,128,364,213,"Room next to stairs"],
+    radius: 158,
+    agent: [[84,301],[158,301],[237,272],[313,272],[349,258]],
+    reference: [[84,301],[158,301],[237,272],[313,272],[409,250],[535,239]],
+    stopLabel: [337,298]
   }
 ];
 
@@ -196,10 +193,28 @@ function drawMap() {
     context.strokeRect(x, y, width, height);
     if (name) label(name, x + width / 2, y + 26);
   }
-  for (const [x, y, width, height, name, target] of example.furniture) {
-    context.fillStyle = target ? "#f5e6ca" : "#edf1ef";
-    context.fillRect(x, y, width, height);
-    label(name, x + width / 2, y + height / 2 + 6, target ? "#864807" : undefined);
+  const [x, y, width, height, name] = example.target;
+  context.fillStyle = "#f5e6ca";
+  context.fillRect(x, y, width, height);
+  if (name) label(name, x + width / 2, y + 22, "#864807");
+  for (const [left, top, w, h, item] of example.furniture) {
+    context.fillStyle = "#e8efed";
+    context.fillRect(left, top, w, h);
+    label(item, left + w / 2, top + h / 2 + 6);
+  }
+  for (const [text, left, top] of example.labels ?? []) label(text, left, top);
+  if (example.radius) {
+    const [goalX, goalY] = example.reference.at(-1);
+    context.beginPath();
+    context.arc(goalX, goalY, example.radius, 0, 2 * Math.PI);
+    context.strokeStyle = "#7b6b9c";
+    context.lineWidth = 2;
+    context.setLineDash([5, 5]);
+    context.stroke();
+    context.setLineDash([]);
+    marker([goalX, goalY], "#7b6b9c", 7);
+    label("3 m SR radius", goalX, goalY - example.radius - 9, "#65527f");
+    label("Official goal", goalX, goalY + 26, "#65527f");
   }
   for (const wall of example.walls) line(wall, "#536264", 5);
   if (example.gate) line(example.gate, "#a7631b", 7);
@@ -212,13 +227,20 @@ function drawMap() {
   marker(example.agent[0], "#192526", 7);
   marker(traveled.at(-1), "#12564b", 8);
   label("Start", example.agent[0][0], example.agent[0][1] + 23);
-  if (progress.value === "100") label("Agent stop", example.agent.at(-1)[0], example.agent.at(-1)[1] - 14, "#12564b");
+  if (progress.value === "100") {
+    label("Agent stop", ...example.stopLabel, "#12564b");
+    if (example.heading) {
+      const [tail, [tipX, tipY]] = example.heading;
+      line([tail, [tipX, tipY], [tipX - 8, tipY + 11]], "#12564b", 4);
+      line([[tipX, tipY], [tipX + 8, tipY + 11]], "#12564b", 4);
+    }
+  }
 }
 
 function selectCase(index) {
   selected = index;
-  const {episode, title, instruction, sr, ndtw, grade, finding} = cases[index];
-  const values = {source: `LightNav-0 · Episode ${episode}`, "case-title": title, instruction, sr, ndtw, grade, finding};
+  const {model, episode, title, instruction, sr, ndtw, grade, finding} = cases[index];
+  const values = {source: `${model} · Episode ${episode}`, "case-title": title, instruction, sr, ndtw, grade, finding};
   for (const [id, value] of Object.entries(values)) document.getElementById(id).textContent = value;
   document.getElementById("grade").dataset.state = grade === "Perfect" ? "pass" : "fail";
   document.getElementById("sr").dataset.state = sr === 1 ? "pass" : "fail";
