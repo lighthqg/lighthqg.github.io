@@ -91,7 +91,7 @@ const cases = [
     model: "g3D-LF", episode: 1077, title: "One hallway leads to two different rooms",
     instruction: "Leave the kitchen, go around the stairwell, and enter the laundry room.",
     sr: 1, ndtw: "0.917", grade: "Failed",
-    finding: "The agent left the kitchen as instructed, then went into the bathroom. Its stop was just 1.23 m from the reference goal. The laundry-room entry check failed.",
+    finding: "The agent left the kitchen as instructed, then went into the bathroom. Its stop was 1.23 m from the reference goal, inside the 3 m success radius. The laundry-room entry check failed.",
     rooms: [[45,47,205,174,"Kitchen"],[147,221,396,116,""],[391,76,152,145,""],[543,221,119,116,""]],
     furniture: [[248,229,102,26,"Stairwell"]],
     walls: [
@@ -101,7 +101,8 @@ const cases = [
     target: [393,78,148,141,"Laundry room"],
     otherRoom: [545,223,115,112,"Bathroom"],
     agent: [[114,130],[157,185],[184,271],[310,286],[455,286],[527,286],[604,286]],
-    reference: [[114,130],[157,185],[184,271],[310,277],[465,278],[469,214],[470,162]],
+    radius: 171,
+    reference: [[114,130],[157,185],[184,271],[310,277],[465,278],[469,218],[495,198]],
     stopLabel: [603,314]
   },
   {
@@ -244,7 +245,7 @@ function drawMap() {
   if (example.gate) line(example.gate, "#a7631b", 7);
   if (reference.checked) {
     line(example.reference, "#62799e", 5, [8, 8]);
-    marker(example.reference.at(-1), "#62799e", 7);
+    if (!example.radius) marker(example.reference.at(-1), "#62799e", 7);
   }
   const traveled = routePrefix(example.agent, Number(progress.value) / 100);
   line(traveled, "#12564b", 6);
