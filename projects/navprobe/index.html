@@ -15,7 +15,7 @@
 .placeholder{margin:16px 0;padding:14px 16px;border:1px dashed var(--line);border-radius:6px;background:var(--white);color:var(--muted)}.placeholder strong{color:var(--ink)}.placeholder p{margin:2px 0 0;font-size:.9rem}
 @media(max-width:480px){nav{flex-wrap:wrap;gap:4px;padding:10px 0}nav div{flex-wrap:wrap;column-gap:14px;row-gap:4px}}
 
-.case-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.case-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:14px}
 .case-list button{border:1px solid var(--line);border-radius:6px;background:var(--white);color:var(--ink);padding:10px;text-align:left;font:inherit;cursor:pointer}
 .case-list button[aria-pressed="true"]{background:var(--wash);border-color:var(--accent)}
 .case-list button small{display:block;color:var(--muted)}.case-list button:focus-visible{outline:3px solid #278772;outline-offset:2px}
@@ -42,7 +42,7 @@
 <div class="eyebrow">A vision-and-language navigation benchmark</div>
 <h1>Within Three Meters.<br>Is That Success?</h1>
 <p class="lede">NavProbe evaluates how faithfully navigation agents follow natural-language instructions by checking individual requirements alongside conventional navigation metrics.</p>
-<div class="actions"><a class="button primary" href="#explore">Explore three cases <span aria-hidden="true">↓</span></a></div>
+<div class="actions"><a class="button primary" href="#explore">Explore four cases <span aria-hidden="true">↓</span></a></div>
 <dl class="stats"><div><dt>500</dt><dd>Whole instructions</dd></div><div><dt>1,702</dt><dd>Whole Judgements</dd></div><div><dt>885</dt><dd>Eligible Micro tasks</dd></div><div><dt>11</dt><dd>Unseen scenes</dd></div></dl>
 </section>
 <section class="wrap section" id="benchmark">
@@ -54,9 +54,10 @@
 </section>
 <section class="wrap section" id="explore">
 <h2>What did the agent actually do?</h2>
-<p class="intro">Three real runs, shown on schematic floor plans. Each diagram highlights the specific requirement that explains the score.</p>
+<p class="intro">Four real runs, shown on schematic floor plans. Each diagram highlights the specific requirement that explains the score.</p>
 <div class="case-list" role="group" aria-label="Choose a case">
-<button type="button" aria-pressed="true">Stopped before the arch<small>nDTW 0.920 · Failed</small></button>
+<button type="button" aria-pressed="true">Entered the wrong room<small>SR 1 · Failed</small></button>
+<button type="button" aria-pressed="false">Stopped before the arch<small>nDTW 0.920 · Failed</small></button>
 <button type="button" aria-pressed="false">Reached the right side of the table<small>nDTW 0.738 · Perfect</small></button>
 <button type="button" aria-pressed="false">Stopped inside the requested room<small>SR 0 · Perfect</small></button>
 </div>
@@ -86,6 +87,23 @@
 <footer class="wrap footer"><span>NavProbe · Academic benchmark · <a href="https://matterport.com/legal/matterport-end-user-license-agreement-academic-use-model-data">Matterport3D academic-use terms</a></span><a href="#main">Back to top ↑</a></footer>
 <script>
 const cases = [
+  {
+    model: "g3D-LF", episode: 1077, title: "One hallway leads to two different rooms",
+    instruction: "Leave the kitchen, go around the stairwell, and enter the laundry room.",
+    sr: 1, ndtw: "0.917", grade: "Failed",
+    finding: "The agent left the kitchen as instructed, then went into the bathroom. Its stop was just 1.23 m from the reference goal. The laundry-room entry check failed.",
+    rooms: [[45,47,205,174,"Kitchen"],[147,221,396,116,""],[391,76,152,145,""],[543,221,119,116,""]],
+    furniture: [[248,229,102,26,"Stairwell"]],
+    walls: [
+      [[147,221],[147,337],[543,337]],
+      [[391,221],[446,221]], [[496,221],[543,221],[543,258]], [[543,313],[543,337]]
+    ],
+    target: [393,78,148,141,"Laundry room"],
+    otherRoom: [545,223,115,112,"Bathroom"],
+    agent: [[114,130],[157,185],[184,271],[310,286],[455,286],[527,286],[604,286]],
+    reference: [[114,130],[157,185],[184,271],[310,277],[465,278],[469,214],[470,162]],
+    stopLabel: [603,314]
+  },
   {
     model: "LightNav-0", episode: 1004, title: "The agent never crossed the arch",
     instruction: "Cross the stone archway and stop just beyond it.",
@@ -197,6 +215,12 @@ function drawMap() {
   context.fillStyle = "#f5e6ca";
   context.fillRect(x, y, width, height);
   if (name) label(name, x + width / 2, y + 22, "#864807");
+  if (example.otherRoom) {
+    const [left, top, w, h, item] = example.otherRoom;
+    context.fillStyle = "#f5e4e1";
+    context.fillRect(left, top, w, h);
+    label(item, left + w / 2, top + 24, "#854340");
+  }
   for (const [left, top, w, h, item] of example.furniture) {
     context.fillStyle = "#e8efed";
     context.fillRect(left, top, w, h);
