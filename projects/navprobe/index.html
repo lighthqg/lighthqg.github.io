@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="NavProbe is a benchmark for checking whether navigation agents fulfill the requirements in an instruction.">
+<title>NavProbe · Within Three Meters. Is That Success?</title>
+<style>
+:root{--bg:#f8f9f6;--ink:#192526;--muted:#536264;--line:#d7e0dc;--accent:#12564b;--wash:#e8f0eb;--white:#fff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.62 system-ui,sans-serif}a{color:var(--accent);text-underline-offset:.22em}a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #278772;outline-offset:3px}.wrap{width:min(1100px,calc(100% - 56px));margin-inline:auto}.bar{border-bottom:1px solid var(--line);background:var(--white)}nav{display:flex;justify-content:space-between;align-items:center;min-height:66px;gap:16px}nav div{display:flex;gap:22px}nav a{text-decoration:none}.brand{color:var(--ink);font-weight:800;font-size:1.3rem;letter-spacing:-.035em}.brand span{font:700 .68rem system-ui;color:var(--accent);letter-spacing:.03em;border:1px solid var(--line);padding:3px 6px;border-radius:4px;vertical-align:middle}.hero{padding:68px 0 40px}.eyebrow{text-transform:uppercase;letter-spacing:.13em;font-size:.73rem;font-weight:750;color:var(--accent);margin:0 0 10px}h1,h2,h3,p,figure{margin-top:0}h1,h2{font-family:Georgia,serif;font-weight:500;letter-spacing:-.045em;line-height:1.08}h1{font-size:clamp(2.6rem,7vw,5.6rem);margin-bottom:18px}h2{font-size:clamp(2rem,4.5vw,3.2rem);margin-bottom:12px}.lede,.intro{max-width:680px;color:var(--muted)}.lede{font-size:clamp(1.05rem,2.1vw,1.26rem);margin-bottom:25px}.actions{display:flex;flex-wrap:wrap;gap:10px}.button{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:6px;padding:9px 14px;text-decoration:none;font-weight:650;background:var(--white)}.button:hover{border-color:var(--accent)}.primary{color:var(--white);background:var(--accent);border-color:var(--accent)}.stats,.concepts{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.stats{margin:38px 0 0;border-block:1px solid var(--line);padding:17px 0}.stats dt{font-size:1.6rem;font-weight:760;color:var(--accent)}dd{margin:0;color:var(--muted)}.stats dd{font-size:.85rem}.section{padding:38px 0 42px;border-bottom:1px solid var(--line);scroll-margin-top:16px}.paper-figure{margin:22px 0 18px;border:1px solid var(--line);background:var(--white);border-radius:8px;overflow:hidden}.paper-figure img{display:block;width:100%;height:auto}.paper-figure figcaption{border-top:1px solid var(--line);padding:10px 15px;font-size:.88rem;color:var(--muted)}.concepts{grid-template-columns:repeat(3,1fr);margin:24px 0 0}.concepts div{border-left:2px solid #94b6a9;padding-left:12px}.concepts dt,.release dt{font-weight:750}.concepts dd{font-size:.9rem}.filters{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}.filters label{display:grid;gap:4px;font-size:.85rem;font-weight:650}.filters input,.filters select{width:100%;padding:9px;border:1px solid var(--line);border-radius:6px;background:var(--white);font:inherit;color:var(--ink)}.count,.note{color:var(--muted);font-size:.88rem}.count{margin:10px 0}.episodes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.episode{border:1px solid var(--line);border-radius:8px;background:var(--white);padding:16px;display:flex;flex-direction:column;align-items:flex-start}.episode h3{margin:0 0 6px}.episode .instruction{font-size:.92rem;color:var(--muted);flex:1}.episode .eyebrow{margin-bottom:6px}.tags{display:flex;flex-wrap:wrap;gap:5px;margin:0 0 13px;padding:0;list-style:none}.tags li{background:var(--wash);color:var(--accent);border-radius:4px;padding:1px 6px;font-size:.75rem}.release{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}.release div{border-top:1px solid var(--line);padding-top:8px}.footer{padding:20px 0;display:flex;justify-content:space-between;gap:12px;font-size:.85rem;color:var(--muted)}.skip{position:absolute;transform:translateY(-200%);background:#fff;padding:8px;z-index:2}.skip:focus{transform:translateY(0)}
+@media(max-width:740px){.wrap{width:calc(100% - 32px)}.hero{padding-top:42px}.episodes{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.concepts{grid-template-columns:1fr}.filters{grid-template-columns:1fr 1fr}.filters label:first-child{grid-column:1/-1}}
+@media(max-width:395px){nav div{gap:10px}nav a{font-size:.82rem}.release{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.placeholder{margin:16px 0;padding:14px 16px;border:1px dashed var(--line);border-radius:6px;background:var(--white);color:var(--muted)}.placeholder strong{color:var(--ink)}.placeholder p{margin:2px 0 0;font-size:.9rem}
+@media(max-width:480px){nav{flex-wrap:wrap;gap:4px;padding:10px 0}nav div{flex-wrap:wrap;column-gap:14px;row-gap:4px}}
+
+.demo{display:grid;grid-template-columns:minmax(240px,1fr) 1.5fr;gap:24px;padding:22px;background:var(--white);border:1px solid var(--line);border-radius:8px}
+.demo canvas{width:100%;height:auto;align-self:center;border:1px solid var(--line);border-radius:6px;background:#f8f9f6}
+.demo fieldset{margin:0;padding:8px 12px;border:1px solid var(--line);border-radius:6px}
+.demo label{display:block;cursor:pointer}.demo input{accent-color:var(--accent)}
+.verdict{margin:14px 0 0}.verdict div{display:flex;justify-content:space-between;gap:10px;padding:4px 0;border-bottom:1px solid var(--line);font-size:.9rem}
+.verdict dd{color:var(--accent);font-weight:700}.verdict dd[data-fail]{color:#a52a30}
+@media(max-width:740px){.demo{grid-template-columns:1fr;padding:14px;gap:14px}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><nav class="wrap" aria-label="Main">
+<a class="brand" href="#">NavProbe <span>v1.0</span></a>
+<div><a href="#benchmark">Benchmark</a><a href="#explore">Demo</a><a href="../../">About the author ↗</a></div>
+</nav></header>
+<main id="main">
+<section class="wrap hero">
+<div class="eyebrow">A vision-and-language navigation benchmark</div>
+<h1>Within Three Meters.<br>Is That Success?</h1>
+<p class="lede">NavProbe evaluates how faithfully navigation agents follow natural-language instructions by checking individual requirements alongside conventional navigation metrics.</p>
+<div class="actions"><a class="button primary" href="#explore">Try the demo <span aria-hidden="true">↓</span></a></div>
+<dl class="stats"><div><dt>500</dt><dd>Whole instructions</dd></div><div><dt>1,702</dt><dd>Whole Judgements</dd></div><div><dt>885</dt><dd>Eligible Micro tasks</dd></div><div><dt>11</dt><dd>Unseen scenes</dd></div></dl>
+</section>
+<section class="wrap section" id="benchmark">
+<p class="eyebrow">Benchmark</p>
+<h2>Endpoint success leaves questions open</h2>
+<p class="intro">NavProbe checks individual instruction requirements against the executed trajectory. Conventional metrics and instruction-level results are reported together so readers can see where they agree and where they diverge.</p>
+
+<dl class="concepts"><div><dt>Whole</dt><dd>The original instruction and starting pose.</dd></div><div><dt>Judgement</dt><dd>An executable check for a grounded requirement, such as crossing the specified opening or stopping by the correct object.</dd></div><div><dt>Micro</dt><dd>A self-contained fragment of the instruction, evaluated from a validated reset pose using the matching Judgements.</dd></div></dl>
+</section>
+<section class="wrap section" id="explore">
+<h2>Try a judgement</h2>
+<p class="intro">Illustrative floor plan. Both routes end at the same point.</p>
+<div class="demo">
+<div>
+<p><strong>Instruction</strong><br>Cross the marked doorway, then stop at the target.</p>
+<fieldset><legend>Route</legend>
+<label><input type="radio" name="route" value="through" checked> Cross the doorway</label>
+<label><input type="radio" name="route" value="around"> Take the other opening</label>
+</fieldset>
+<dl class="verdict" aria-live="polite">
+<div><dt>Endpoint success (SR)</dt><dd>Success</dd></div>
+<div><dt>Cross the marked doorway</dt><dd id="door-score">Pass</dd></div>
+<div><dt>Stop at the target</dt><dd>Pass</dd></div>
+</dl>
+</div>
+<canvas id="map" width="700" height="420" role="img" aria-label="Illustrative map showing a route that crosses the marked doorway and stops at the target.">Both routes stop at the target. The route through the marked doorway passes the crossing check.</canvas>
+</div>
+</section>
+</main>
+<footer class="wrap footer"><span>NavProbe · Academic benchmark</span><a href="#main">Back to top ↑</a></footer>
+<script>
+const canvas = document.getElementById("map");
+const context = canvas.getContext("2d");
+const doorScore = document.getElementById("door-score");
+
+function drawMap(crossesDoor) {
+  context.clearRect(0, 0, 700, 420);
+  function line(points, color, width) {
+    context.beginPath();
+    context.moveTo(...points[0]);
+    points.slice(1).forEach(point => context.lineTo(...point));
+    context.lineJoin = "round";
+    context.lineCap = "round";
+    context.strokeStyle = color;
+    context.lineWidth = width;
+    context.stroke();
+  }
+  function mark(x, y, color, label) {
+    context.beginPath();
+    context.arc(x, y, 10, 0, 2 * Math.PI);
+    context.fillStyle = color;
+    context.fill();
+    context.fillText(label, x, y - 22);
+  }
+  context.fillStyle = "#fff";
+  context.fillRect(60, 55, 580, 310);
+  context.strokeStyle = "#536264";
+  context.lineWidth = 5;
+  context.strokeRect(60, 55, 580, 310);
+  line([[350, 55], [350, 110]], "#536264", 5);
+  line([[350, 170], [350, 275]], "#536264", 5);
+  line([[350, 335], [350, 365]], "#536264", 5);
+  line([[350, 110], [350, 170]], "#ab6a10", 8);
+  const points = crossesDoor ? [[150, 220], [245, 140], [455, 140], [550, 220]]
+    : [[150, 220], [240, 305], [460, 305], [550, 220]];
+  line(points, "#12564b", 9);
+  context.font = "600 22px system-ui, sans-serif";
+  context.textAlign = "center";
+  context.fillStyle = "#774707";
+  context.fillText("Marked doorway", 350, 92);
+  mark(150, 220, "#192526", "Start");
+  mark(550, 220, "#12564b", "Target");
+  canvas.setAttribute("aria-label", crossesDoor
+    ? "The route crosses the marked doorway and stops at the target."
+    : "The route uses the other opening and stops at the same target.");
+}
+
+document.querySelectorAll('input[name="route"]').forEach(input => {
+  input.addEventListener("change", event => {
+    const crossesDoor = event.target.value === "through";
+    doorScore.textContent = crossesDoor ? "Pass" : "Fail";
+    doorScore.toggleAttribute("data-fail", !crossesDoor);
+    drawMap(crossesDoor);
+  });
+});
+drawMap(true);
+</script>
+</body>
+</html>
