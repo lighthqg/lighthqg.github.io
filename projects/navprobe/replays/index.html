@@ -24,11 +24,15 @@ select{font:inherit;background:white;border:1px solid var(--line);border-radius:
 #runs button[aria-pressed=true]{background:var(--wash);border-color:var(--accent)}
 #runs small{display:block;color:var(--muted)}
 #detail{background:white;border:1px solid var(--line);border-radius:8px;padding:16px}
+.run-media{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:12px}
+.run-media figure{margin:0;min-width:0}
+.run-media figcaption{font-size:.82rem;font-weight:650;margin:0 0 5px;color:var(--muted)}
+.run-media img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:5px}
 video{display:block;width:100%;aspect-ratio:16/9;background:#152020;border-radius:5px}
 summary{cursor:pointer;font-weight:650;margin-top:12px}
 li{margin-bottom:6px}
 footer{color:var(--muted);border-top:1px solid var(--line)}
-@media(max-width:700px){main,footer{padding:16px}.gallery{grid-template-columns:1fr}#runs{max-height:205px}}
+@media(max-width:700px){main,footer{padding:16px}.gallery{grid-template-columns:1fr}#runs{max-height:205px}.run-media{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -47,7 +51,7 @@ footer{color:var(--muted);border-top:1px solid var(--line)}
 <div class="gallery"><nav id="runs" aria-label="Selected runs"></nav><article id="detail"></article></div>
 </main>
 <footer>Replays rendered in Habitat using Matterport3D scenes for non-commercial academic research. <a href="https://matterport.com/legal/matterport-end-user-license-agreement-academic-use-model-data">Matterport3D academic-use agreement</a>.</footer>
-<script src="data.js"></script>
-<script src="gallery.js"></script>
+<script src="data.js?v=judgement-maps-1"></script>
+<script src="gallery.js?v=judgement-maps-1"></script>
 </body>
 </html>

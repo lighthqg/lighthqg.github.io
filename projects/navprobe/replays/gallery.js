@@ -35,6 +35,21 @@ function showRun(model, run) {
   video.controls = true;
   video.preload = 'none';
   video.playsInline = true;
+  const replay = element('figure');
+  replay.append(element('figcaption', 'RGB replay and trajectory'), video);
+  const figure = element('figure');
+  const image = element('img');
+  image.src = run.judgementImage;
+  image.alt = 'Judgement geometry for episode ' + run.episode;
+  const link = element('a');
+  link.href = run.judgementImage;
+  link.target = '_blank';
+  link.rel = 'noopener';
+  link.append(image);
+  figure.append(element('figcaption', 'Judgement map · click to enlarge'), link);
+  const media = element('div');
+  media.className = 'run-media';
+  media.append(replay, figure);
   const checks = element('details');
   const list = element('ul');
   for (const check of run.judgements) {
@@ -42,7 +57,7 @@ function showRun(model, run) {
   }
   checks.append(element('summary', 'Judgement results'), list);
   detail.replaceChildren(element('h2', runLabel(run)), element('p', run.instruction),
-    element('p', outcome(run)), video, checks);
+    element('p', outcome(run)), media, checks);
   history.replaceState(null, '', '?model=' + encodeURIComponent(model.id) + '&run=' + encodeURIComponent(run.id));
 }
 
