@@ -1,0 +1,24 @@
+[data-replay-gallery] .controls{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0 14px}
+[data-replay-gallery] label{display:grid;gap:4px;font-size:.88rem;font-weight:650}
+[data-replay-gallery] select{font:inherit;background:white;border:1px solid var(--line);border-radius:6px;padding:7px;color:var(--ink)}
+[data-replay-gallery] .score{padding:12px 16px;background:var(--wash);border-radius:8px;margin-bottom:18px}
+[data-replay-gallery] .score p{margin:3px 0}
+[data-replay-gallery] .gallery{display:grid;grid-template-columns:minmax(220px,1fr) minmax(0,2.5fr);gap:16px;align-items:start}
+[data-replay-gallery] [data-replay="runs"]{display:grid;gap:5px;max-height:720px;overflow:auto}
+[data-replay-gallery] [data-replay="runs"] button{font:inherit;text-align:left;color:var(--ink);background:white;border:1px solid var(--line);border-radius:6px;padding:8px 10px;cursor:pointer}
+[data-replay-gallery] [data-replay="runs"] button[aria-pressed=true]{background:var(--wash);border-color:var(--accent)}
+[data-replay-gallery] [data-replay="runs"] small{display:block;color:var(--muted)}
+[data-replay-gallery] [data-replay="detail"]{background:white;border:1px solid var(--line);border-radius:8px;padding:16px}
+[data-replay-gallery] .grade-explanation{border-left:4px solid #a52a30;background:#fbf0ef;padding:10px 14px;margin-bottom:16px}
+[data-replay-gallery] .grade-explanation.bad{border-color:#9a6d17;background:#faf4e4}
+[data-replay-gallery] .grade-explanation h3,[data-replay-gallery] .grade-explanation p{margin:0 0 5px}
+[data-replay-gallery] .grade-explanation ul{padding-left:20px;margin:8px 0 0}
+[data-replay-gallery] .grade-explanation small{color:var(--muted)}
+[data-replay-gallery] .run-media{display:grid;gap:16px}
+[data-replay-gallery] .run-media figure{margin:0;min-width:0}
+[data-replay-gallery] .run-media figcaption{font-size:.82rem;font-weight:650;margin:0 0 5px;color:var(--muted)}
+[data-replay-gallery] .run-media img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:5px}
+[data-replay-gallery] video{display:block;width:100%;aspect-ratio:16/9;background:#152020;border-radius:5px}
+[data-replay-gallery] summary{cursor:pointer;font-weight:650;margin-top:12px}
+[data-replay-gallery] li{margin-bottom:6px}
+@media(max-width:700px){[data-replay-gallery] .gallery{grid-template-columns:1fr}[data-replay-gallery] [data-replay="runs"]{max-height:205px}}

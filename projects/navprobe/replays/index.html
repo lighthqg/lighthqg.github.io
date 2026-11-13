@@ -13,50 +13,30 @@ main,footer{max-width:1120px;margin:auto;padding:24px}
 h1{font-size:clamp(2rem,5vw,3rem);line-height:1.15;margin:20px 0 8px}
 h2{margin:0 0 .4em;font-size:1.3rem}
 p{margin:.45em 0 1em}
-.controls{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0 14px}
-label{display:grid;gap:4px;font-size:.88rem;font-weight:650}
-select{font:inherit;background:white;border:1px solid var(--line);border-radius:6px;padding:7px;color:var(--ink)}
-.score{padding:12px 16px;background:var(--wash);border-radius:8px;margin-bottom:18px}
-.score p{margin:3px 0}
-.gallery{display:grid;grid-template-columns:minmax(220px,1fr) minmax(0,2.5fr);gap:16px;align-items:start}
-#runs{display:grid;gap:5px;max-height:720px;overflow:auto}
-#runs button{font:inherit;text-align:left;color:var(--ink);background:white;border:1px solid var(--line);border-radius:6px;padding:8px 10px;cursor:pointer}
-#runs button[aria-pressed=true]{background:var(--wash);border-color:var(--accent)}
-#runs small{display:block;color:var(--muted)}
-#detail{background:white;border:1px solid var(--line);border-radius:8px;padding:16px}
-.grade-explanation{border-left:4px solid #a52a30;background:#fbf0ef;padding:10px 14px;margin-bottom:16px}
-.grade-explanation.bad{border-color:#9a6d17;background:#faf4e4}
-.grade-explanation h3,.grade-explanation p{margin:0 0 5px}
-.grade-explanation ul{padding-left:20px;margin:8px 0 0}
-.grade-explanation small{color:var(--muted)}
-.run-media{display:grid;gap:16px}
-.run-media figure{margin:0;min-width:0}
-.run-media figcaption{font-size:.82rem;font-weight:650;margin:0 0 5px;color:var(--muted)}
-.run-media img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:5px}
-video{display:block;width:100%;aspect-ratio:16/9;background:#152020;border-radius:5px}
-summary{cursor:pointer;font-weight:650;margin-top:12px}
-li{margin-bottom:6px}
 footer{color:var(--muted);border-top:1px solid var(--line)}
-@media(max-width:700px){main,footer{padding:16px}.gallery{grid-template-columns:1fr}#runs{max-height:205px}}
+@media(max-width:700px){main,footer{padding:16px}}
 </style>
+<link rel="stylesheet" href="gallery.css?v=inline-1">
 </head>
 <body>
 <main>
 <a href="../">← NavProbe</a>
 <h1>Model replays</h1>
 <p>Explore 25 scored runs per model. Whole examples reflect the joint distribution of endpoint success and NavProbe grades. Micro examples reflect the distribution of grades.</p>
+<div data-replay-gallery>
 <div class="controls">
-<label>Model<select id="model"></select></label>
-<label>Task<select id="scope"><option value="">All tasks</option><option>Whole</option><option>Micro</option></select></label>
-<label>Grade<select id="grade"><option value="">All grades</option><option>Perfect</option><option>Bad</option><option>Failed</option></select></label>
-<label>Endpoint success<select id="sr"><option value="">Any</option><option value="1">SR 1</option><option value="0">SR 0</option></select></label>
+<label>Model<select data-replay="model"></select></label>
+<label>Task<select data-replay="scope"><option value="">All tasks</option><option>Whole</option><option>Micro</option></select></label>
+<label>Grade<select data-replay="grade"><option value="">All grades</option><option>Perfect</option><option>Bad</option><option>Failed</option></select></label>
+<label>Endpoint success<select data-replay="sr"><option value="">Any</option><option value="1">SR 1</option><option value="0">SR 0</option></select></label>
 </div>
-<section class="score" id="score" aria-label="Full evaluation scorecard"></section>
-<p id="count" aria-live="polite"></p>
-<div class="gallery"><nav id="runs" aria-label="Selected runs"></nav><article id="detail"></article></div>
+<section class="score" data-replay="score" aria-label="Full evaluation scorecard"></section>
+<p data-replay="count" aria-live="polite"></p>
+<div class="gallery"><nav data-replay="runs" aria-label="Selected runs"></nav><article data-replay="detail"></article></div>
+</div>
 </main>
 <footer>Replays rendered in Habitat using Matterport3D scenes for non-commercial academic research. <a href="https://matterport.com/legal/matterport-end-user-license-agreement-academic-use-model-data">Matterport3D academic-use agreement</a>.</footer>
 <script src="data.js?v=grade-reasons-1"></script>
-<script src="gallery.js?v=grade-reasons-1"></script>
+<script src="gallery.js?v=inline-1"></script>
 </body>
 </html>

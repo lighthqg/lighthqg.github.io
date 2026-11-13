@@ -30,12 +30,13 @@
 .verdict dd{font-weight:700;white-space:nowrap}.verdict dd[data-state="pass"]{color:var(--accent)}.verdict dd[data-state="fail"]{color:#a52a30}
 @media(max-width:740px){.demo{grid-template-columns:1fr;padding:14px;gap:14px}.case-list{grid-template-columns:repeat(2,1fr)}}
 </style>
+<link rel="stylesheet" href="replays/gallery.css?v=inline-1">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="bar"><nav class="wrap" aria-label="Main">
 <a class="brand" href="#">NavProbe <span>v1.0</span></a>
-<div><a href="#benchmark">Benchmark</a><a href="#explore">Case demos</a><a href="replays/">Model replays</a><a href="../../">About the author ↗</a></div>
+<div><a href="#benchmark">Benchmark</a><a href="#explore">Case demos</a><a href="#model-replays">Model replays</a><a href="../../">About the author ↗</a></div>
 </nav></header>
 <main id="main">
 <section class="wrap hero">
@@ -83,10 +84,19 @@
 </figure>
 </div>
 </section>
-<section class="wrap section" id="model-replays">
+<section class="wrap section" id="model-replays" data-replay-gallery>
 <h2>Model replays</h2>
-<p class="intro">Browse 25 scored runs per model alongside their full evaluation scorecards. Each replay shows the agent’s camera view and trajectory.</p>
-<div class="actions"><a class="button primary" href="replays/">Browse 325 replays <span aria-hidden="true">↗</span></a></div>
+<p class="intro">Browse 325 scored runs across 13 models. Each replay shows the agent’s camera view, trajectory, and Judgement map.</p>
+<div class="controls">
+<label>Model<select data-replay="model"></select></label>
+<label>Task<select data-replay="scope"><option value="">All tasks</option><option>Whole</option><option>Micro</option></select></label>
+<label>Grade<select data-replay="grade"><option value="">All grades</option><option>Perfect</option><option>Bad</option><option>Failed</option></select></label>
+<label>Endpoint success<select data-replay="sr"><option value="">Any</option><option value="1">SR 1</option><option value="0">SR 0</option></select></label>
+</div>
+<section class="score" data-replay="score" aria-label="Full evaluation scorecard"></section>
+<p data-replay="count" aria-live="polite"></p>
+<div class="gallery"><nav data-replay="runs" aria-label="Selected runs"></nav><article data-replay="detail"></article></div>
+<p class="note">Replays rendered in Habitat using Matterport3D scenes for non-commercial academic research.</p>
 </section>
 </main>
 <footer class="wrap footer"><span>NavProbe · Academic benchmark · <a href="https://matterport.com/legal/matterport-end-user-license-agreement-academic-use-model-data">Matterport3D academic-use terms</a></span><a href="#main">Back to top ↑</a></footer>
@@ -285,5 +295,7 @@ progress.addEventListener("input", drawMap);
 reference.addEventListener("change", drawMap);
 selectCase(0);
 </script>
+<script defer src="replays/data.js?v=grade-reasons-1"></script>
+<script defer src="replays/gallery.js?v=inline-1"></script>
 </body>
 </html>
