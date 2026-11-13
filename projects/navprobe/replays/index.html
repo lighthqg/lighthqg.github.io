@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Model replays | NavProbe</title>
+<style>
+:root{--bg:#f8f9f6;--ink:#192526;--muted:#536264;--line:#d7e0dc;--accent:#12564b;--wash:#e8f0eb}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,sans-serif}
+a{color:var(--accent);text-underline-offset:.22em}
+main,footer{max-width:1120px;margin:auto;padding:24px}
+h1{font-size:clamp(2rem,5vw,3rem);line-height:1.15;margin:20px 0 8px}
+h2{margin:0 0 .4em;font-size:1.3rem}
+p{margin:.45em 0 1em}
+.controls{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0 14px}
+label{display:grid;gap:4px;font-size:.88rem;font-weight:650}
+select{font:inherit;background:white;border:1px solid var(--line);border-radius:6px;padding:7px;color:var(--ink)}
+.score{padding:12px 16px;background:var(--wash);border-radius:8px;margin-bottom:18px}
+.score p{margin:3px 0}
+.gallery{display:grid;grid-template-columns:minmax(220px,1fr) minmax(0,2.5fr);gap:16px;align-items:start}
+#runs{display:grid;gap:5px;max-height:720px;overflow:auto}
+#runs button{font:inherit;text-align:left;color:var(--ink);background:white;border:1px solid var(--line);border-radius:6px;padding:8px 10px;cursor:pointer}
+#runs button[aria-pressed=true]{background:var(--wash);border-color:var(--accent)}
+#runs small{display:block;color:var(--muted)}
+#detail{background:white;border:1px solid var(--line);border-radius:8px;padding:16px}
+video{display:block;width:100%;aspect-ratio:16/9;background:#152020;border-radius:5px}
+summary{cursor:pointer;font-weight:650;margin-top:12px}
+li{margin-bottom:6px}
+footer{color:var(--muted);border-top:1px solid var(--line)}
+@media(max-width:700px){main,footer{padding:16px}.gallery{grid-template-columns:1fr}#runs{max-height:205px}}
+</style>
+</head>
+<body>
+<main>
+<a href="../">← NavProbe</a>
+<h1>Model replays</h1>
+<p>Explore 25 scored runs per model. Whole examples reflect the joint distribution of endpoint success and NavProbe grades. Micro examples reflect the distribution of grades.</p>
+<div class="controls">
+<label>Model<select id="model"></select></label>
+<label>Task<select id="scope"><option value="">All tasks</option><option>Whole</option><option>Micro</option></select></label>
+<label>Grade<select id="grade"><option value="">All grades</option><option>Perfect</option><option>Bad</option><option>Failed</option></select></label>
+<label>Endpoint success<select id="sr"><option value="">Any</option><option value="1">SR 1</option><option value="0">SR 0</option></select></label>
+</div>
+<section class="score" id="score" aria-label="Full evaluation scorecard"></section>
+<p id="count" aria-live="polite"></p>
+<div class="gallery"><nav id="runs" aria-label="Selected runs"></nav><article id="detail"></article></div>
+</main>
+<footer>Replays rendered in Habitat using Matterport3D scenes for non-commercial academic research. <a href="https://matterport.com/legal/matterport-end-user-license-agreement-academic-use-model-data">Matterport3D academic-use agreement</a>.</footer>
+<script src="data.js"></script>
+<script src="gallery.js"></script>
+</body>
+</html>
