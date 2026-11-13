@@ -42,14 +42,14 @@
 <section class="wrap hero">
 <div class="eyebrow">A vision-and-language navigation benchmark</div>
 <h1>Within Three Meters.<br>Is That Success?</h1>
-<p class="lede">NavProbe evaluates how faithfully navigation agents follow natural-language instructions by checking individual requirements alongside conventional navigation metrics.</p>
+<p class="lede">NavProbe evaluates how well navigation agents follow instructions, from the route they take to where they stop.</p>
 <div class="actions"><a class="button primary" href="#explore">Explore four cases <span aria-hidden="true">↓</span></a></div>
 <dl class="stats"><div><dt>500</dt><dd>Whole instructions</dd></div><div><dt>1,702</dt><dd>Whole Judgements</dd></div><div><dt>885</dt><dd>Eligible Micro tasks</dd></div><div><dt>11</dt><dd>Unseen scenes</dd></div></dl>
 </section>
 <section class="wrap section" id="benchmark">
 <p class="eyebrow">Benchmark</p>
-<h2>Endpoint success leaves questions open</h2>
-<p class="intro">NavProbe checks individual instruction requirements against the executed trajectory. Conventional metrics and instruction-level results are reported together so readers can see where they agree and where they diverge.</p>
+<h2>How NavProbe scores a run</h2>
+<p class="intro">An agent can stop within three meters of the goal and still miss a doorway the instruction asked it to cross. NavProbe reports conventional navigation scores alongside the results for each requirement.</p>
 
 <dl class="concepts"><div><dt>Whole</dt><dd>The original instruction and starting pose.</dd></div><div><dt>Judgement</dt><dd>An executable check for a grounded requirement, such as crossing the specified opening or stopping by the correct object.</dd></div><div><dt>Micro</dt><dd>A self-contained fragment of the instruction, evaluated from a validated reset pose using the matching Judgements.</dd></div></dl>
 </section>
