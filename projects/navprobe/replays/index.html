@@ -24,6 +24,11 @@ select{font:inherit;background:white;border:1px solid var(--line);border-radius:
 #runs button[aria-pressed=true]{background:var(--wash);border-color:var(--accent)}
 #runs small{display:block;color:var(--muted)}
 #detail{background:white;border:1px solid var(--line);border-radius:8px;padding:16px}
+.grade-explanation{border-left:4px solid #a52a30;background:#fbf0ef;padding:10px 14px;margin-bottom:16px}
+.grade-explanation.bad{border-color:#9a6d17;background:#faf4e4}
+.grade-explanation h3,.grade-explanation p{margin:0 0 5px}
+.grade-explanation ul{padding-left:20px;margin:8px 0 0}
+.grade-explanation small{color:var(--muted)}
 .run-media{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:12px}
 .run-media figure{margin:0;min-width:0}
 .run-media figcaption{font-size:.82rem;font-weight:650;margin:0 0 5px;color:var(--muted)}
@@ -51,7 +56,7 @@ footer{color:var(--muted);border-top:1px solid var(--line)}
 <div class="gallery"><nav id="runs" aria-label="Selected runs"></nav><article id="detail"></article></div>
 </main>
 <footer>Replays rendered in Habitat using Matterport3D scenes for non-commercial academic research. <a href="https://matterport.com/legal/matterport-end-user-license-agreement-academic-use-model-data">Matterport3D academic-use agreement</a>.</footer>
-<script src="data.js?v=judgement-maps-1"></script>
-<script src="gallery.js?v=judgement-maps-1"></script>
+<script src="data.js?v=grade-reasons-1"></script>
+<script src="gallery.js?v=grade-reasons-1"></script>
 </body>
 </html>

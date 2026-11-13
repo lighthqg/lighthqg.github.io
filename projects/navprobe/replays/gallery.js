@@ -53,11 +53,30 @@ function showRun(model, run) {
   const checks = element('details');
   const list = element('ul');
   for (const check of run.judgements) {
-    list.append(element('li', check.outcome + ' · ' + words(check.type) + ' · ' + check.instruction_span));
+    list.append(element('li', check.id + ' · ' + check.outcome + ' · ' + words(check.type) + ' · ' + check.requirement));
   }
   checks.append(element('summary', 'Judgement results'), list);
   detail.replaceChildren(element('h2', runLabel(run)), element('p', run.instruction),
-    element('p', outcome(run)), media, checks);
+    element('p', outcome(run)));
+  if (run.gradeExplanation) {
+    const explanation = element('section');
+    explanation.className = 'grade-explanation ' + run.grade.toLowerCase();
+    explanation.append(element('h3', 'Why this run was rated ' + title(run.grade)),
+      element('p', run.gradeExplanation));
+    const failed = run.judgements.filter(check => check.reason);
+    if (failed.length) {
+      const reasons = element('ul');
+      for (const check of failed) {
+        const item = element('li');
+        item.append(element('strong', check.id + ' · ' + title(check.type)),
+          element('p', check.reason), element('small', check.requirement));
+        reasons.append(item);
+      }
+      explanation.append(reasons);
+    }
+    detail.append(explanation);
+  }
+  detail.append(media, checks);
   history.replaceState(null, '', '?model=' + encodeURIComponent(model.id) + '&run=' + encodeURIComponent(run.id));
 }
 
