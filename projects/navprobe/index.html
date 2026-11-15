@@ -29,6 +29,15 @@
 .verdict{margin:14px 0}.verdict div{display:flex;justify-content:space-between;gap:10px;padding:4px 0;border-bottom:1px solid var(--line);font-size:.9rem}
 .verdict dd{font-weight:700;white-space:nowrap}.verdict dd[data-state="pass"]{color:var(--accent)}.verdict dd[data-state="fail"]{color:#a52a30}
 @media(max-width:740px){.demo{grid-template-columns:1fr;padding:14px;gap:14px}.case-list{grid-template-columns:repeat(2,1fr)}}
+
+.scoreboard-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:24px 0}
+.scoreboard-preview{display:block;overflow:hidden;border:1px solid var(--line);border-radius:8px;background:var(--white);color:var(--ink);text-decoration:none}
+.scoreboard-preview:hover{border-color:var(--accent);box-shadow:0 4px 14px #19252614}
+.scoreboard-preview img{display:block;width:100%;height:auto;aspect-ratio:8/5;object-fit:contain;background:#0e1114}
+.scoreboard-caption{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 14px;font-size:.9rem;font-weight:650}
+.scoreboard-caption span{color:var(--accent)}
+.scoreboard-action{margin-top:24px}
+@media(max-width:600px){.scoreboard-grid{grid-template-columns:1fr}}
 </style>
 <link rel="stylesheet" href="replays/gallery.css?v=inline-1">
 </head>
@@ -36,14 +45,14 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="bar"><nav class="wrap" aria-label="Main">
 <a class="brand" href="#">NavProbe <span>v1.0</span></a>
-<div><a href="#benchmark">Benchmark</a><a href="#explore">Case demos</a><a href="scorecards/">Model scorecards</a><a href="#model-replays">Model replays</a><a href="../../">About the author ↗</a></div>
+<div><a href="#benchmark">Benchmark</a><a href="#explore">Case demos</a><a href="#model-replays">Model replays</a><a href="#model-scoreboard">Model scoreboard</a><a href="../../">About the author ↗</a></div>
 </nav></header>
 <main id="main">
 <section class="wrap hero">
 <div class="eyebrow">A vision-and-language navigation benchmark</div>
 <h1>Within Three Meters.<br>Is That Success?</h1>
 <p class="lede">NavProbe evaluates how well navigation agents follow instructions, from the route they take to where they stop.</p>
-<div class="actions"><a class="button primary" href="#explore">Explore four cases <span aria-hidden="true">↓</span></a><a class="button" href="scorecards/">Browse model scorecards <span aria-hidden="true">→</span></a></div>
+<div class="actions"><a class="button primary" href="#explore">Explore four cases <span aria-hidden="true">↓</span></a><a class="button" href="#model-scoreboard">Preview model scorecards <span aria-hidden="true">↓</span></a></div>
 <dl class="stats"><div><dt>500</dt><dd>Whole instructions</dd></div><div><dt>1,702</dt><dd>Whole Judgements</dd></div><div><dt>885</dt><dd>Eligible Micro tasks</dd></div><div><dt>11</dt><dd>Unseen scenes</dd></div></dl>
 </section>
 <section class="wrap section" id="benchmark">
@@ -97,6 +106,29 @@
 <p data-replay="count" aria-live="polite"></p>
 <div class="gallery"><nav data-replay="runs" aria-label="Selected runs"></nav><article data-replay="detail"></article></div>
 <p class="note">Replays rendered in Habitat using Matterport3D scenes for non-commercial academic research.</p>
+</section>
+<section class="wrap section" id="model-scoreboard" aria-labelledby="model-scoreboard-title">
+<h2 id="model-scoreboard-title">Model Scoreboard</h2>
+<p class="intro">Preview the DualVLN scorecard, then browse full reports for all 13 models.</p>
+<div class="scoreboard-grid">
+<a class="scoreboard-preview" href="scorecards/previews/overview.webp" aria-label="Open the full-size overview preview">
+<img src="scorecards/previews/overview.webp" width="1600" height="821" loading="lazy" decoding="async" alt="DualVLN summary showing conventional metrics, NavProbe outcomes, and collision rate.">
+<div class="scoreboard-caption">Scorecard overview <span aria-hidden="true">↗</span></div>
+</a>
+<a class="scoreboard-preview" href="scorecards/previews/metrics.webp" aria-label="Open the full-size navigation metrics preview">
+<img src="scorecards/previews/metrics.webp" width="1600" height="984" loading="lazy" decoding="async" alt="DualVLN outcome tables and charts comparing SR and nDTW with Perfect, Bad, and Failed grades.">
+<div class="scoreboard-caption">Navigation metrics and outcomes <span aria-hidden="true">↗</span></div>
+</a>
+<a class="scoreboard-preview" href="scorecards/previews/judgements.webp" aria-label="Open the full-size Judgements preview">
+<img src="scorecards/previews/judgements.webp" width="1600" height="1059" loading="lazy" decoding="async" alt="DualVLN results by Judgement position and paired Whole and Micro outcome matrices.">
+<div class="scoreboard-caption">Judgements and Whole–Micro comparisons <span aria-hidden="true">↗</span></div>
+</a>
+<a class="scoreboard-preview" href="scorecards/previews/operators.webp" aria-label="Open the full-size results by requirement preview">
+<img src="scorecards/previews/operators.webp" width="1600" height="1059" loading="lazy" decoding="async" alt="DualVLN pass rates and counts for individual requirement types, including turns and door crossings.">
+<div class="scoreboard-caption">Results by requirement <span aria-hidden="true">↗</span></div>
+</a>
+</div>
+<div class="scoreboard-action"><a class="button primary" href="scorecards/">Tap to explore all 13 scorecards <span aria-hidden="true">→</span></a></div>
 </section>
 </main>
 <footer class="wrap footer"><span>NavProbe · Academic benchmark · <a href="https://matterport.com/legal/matterport-end-user-license-agreement-academic-use-model-data">Matterport3D academic-use terms</a></span><a href="#main">Back to top ↑</a></footer>
