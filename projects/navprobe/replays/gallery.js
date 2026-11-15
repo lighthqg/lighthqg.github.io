@@ -98,11 +98,14 @@
       (!srSelect.value || String(run.sr) === srSelect.value));
     const score = byId('score');
     const grades = scope => ['PERFECT', 'BAD', 'FAILED'].map(g => percent(model.grades[scope][g])).join(' / ');
-    score.replaceChildren(element('strong', model.name + ' · full evaluation scorecard'),
+    score.replaceChildren(element('strong', model.name + ' · score summary'),
       element('p', 'Whole SR ' + percent(model.wholeSR) + ' · Whole Perfect / Bad / Failed ' + grades('WHOLE')));
     if (model.grades.MICRO.PERFECT != null) {
       score.append(element('p', 'Micro Perfect / Bad / Failed ' + grades('MICRO')));
     }
+    const scorecardLink = element('a', 'Open full scorecard →');
+    scorecardLink.href = new URL('../scorecards/' + model.id + '/', assetBase).href;
+    score.append(scorecardLink);
     byId('count').textContent = matching.length + ' of ' + model.runs.length + ' selected runs';
     runs.replaceChildren();
     for (const run of matching) {
